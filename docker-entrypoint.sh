@@ -11,19 +11,19 @@ if [ ! -f .ctfd_secret_key ] && [ -z "$SECRET_KEY" ]; then
 fi
 
 # Check that the database is available
-if [ -n "$DATABASE_URL" ]
-    then
-    database=`echo $DATABASE_URL | awk -F[@//] '{print $4}'`
-    echo "Waiting for $database to be ready"
-    while ! mysqladmin ping -h $database --silent; do
-        # Show some progress
-        echo -n '.';
-        sleep 1;
-    done
-    echo "$database is ready"
-    # Give it another second.
-    sleep 1;
-fi
+# if [ -n "$DATABASE_URL" ]
+#     then
+#     database=`echo $DATABASE_URL | awk -F[@//] '{print $4}'`
+#     echo "Waiting for $database to be ready"
+#     while ! mysqladmin ping -h $database --silent; do
+#         # Show some progress
+#         echo -n '.';
+#         sleep 1;
+#     done
+#     echo "$database is ready"
+#     # Give it another second.
+#     sleep 1;
+# fi
 
 # Initialize database
 python manage.py db upgrade
@@ -35,7 +35,7 @@ fi
 # Start CTFd
 echo "Starting CTFd"
 gunicorn 'CTFd:create_app()' \
-    --bind '0.0.0.0:8000' \
+    --bind "0.0.0.0:${PORT:-8000}" \
     --workers $WORKERS \
     --worker-class 'gevent' \
     --access-logfile "${LOG_FOLDER:-/opt/CTFd/CTFd/logs}/access.log" \

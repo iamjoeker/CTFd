@@ -100,11 +100,12 @@ def create_app(config='CTFd.config.Config'):
             url.query['charset'] = 'utf8mb4'
 
         # Creates database if the database database does not exist
-        if not database_exists(url):
-            if url.drivername.startswith('mysql'):
-                create_database(url, encoding='utf8mb4')
-            else:
-                create_database(url)
+        ## TODO: Fix sqlalchemy utils for postgres database exist (https://github.com/kvesteri/sqlalchemy-utils/issues/330)
+        # if not database_exists(url):
+        #     if url.drivername.startswith('mysql'):
+        #         create_database(url, encoding='utf8mb4')
+        #     else:
+        #         create_database(url)
 
         # This allows any changes to the SQLALCHEMY_DATABASE_URI to get pushed back in
         # This is mostly so we can force MySQL's charset

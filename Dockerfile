@@ -1,6 +1,6 @@
 FROM python:2.7-alpine
 RUN apk update && \
-    apk add python python-dev libffi-dev gcc make musl-dev py-pip mysql-client
+    apk add python python-dev libffi-dev gcc make musl-dev py-pip mysql-client postgresql-client postgresql-dev
 
 RUN mkdir -p /opt/CTFd
 COPY . /opt/CTFd
@@ -16,6 +16,6 @@ RUN for d in CTFd/plugins/*; do \
 
 RUN chmod +x /opt/CTFd/docker-entrypoint.sh
 
-EXPOSE 8000
+#EXPOSE 80
 
-ENTRYPOINT ["/opt/CTFd/docker-entrypoint.sh"]
+CMD ["/opt/CTFd/docker-entrypoint.sh"]
